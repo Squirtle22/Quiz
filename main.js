@@ -1,57 +1,51 @@
-/* store correct answer 
-- When quiz begins, no answers are correct
- */
-let correctAnswer = 0;
+// 1. Create a multidimensional array to hold quiz questions and answers
+const questions = [
+    ['Street artist Banksy is originally associated with which British city?', 'bristol'],
+    ['Which Disney Princess called Gus and Jaq friends?', 'cinderella'],
+    ['The Simpsons was the spin-off show of which American sketch series?', 'the tracey ullman show'],
+    ['Which Catastrophe star makes a cameo in Deadpool 2 as Peter?', 'rob delaney'],
+    ['Which soft drink is commonly associated with Scotland?', 'irn-bru']
+]
 
+// 2. Store the number of questions answered correctly
+const correct = []; const incorrect = []; let correctAnswers = 0; let html;
 
-// store rank of player
-let playerRank;
-
-// select <main> HTML element
-const main = document.querySelector('main');
-
-/* Ask at least 5 questions 
-- store each answer in a variable 
-- keep track of number of correct answers
- */
-const answer1 = prompt("Question 1: Who has won the most total academy awards?")
-if (answer1.toLowerCase() === 'walt disney') {
-    correctAnswer += 1;
-}
-const answer2 = prompt("Question 2: How many ghost chase pac-man at the start of each game?")
-if (answer2 === '4') {
-    correctAnswer += 1;
-}
-const answer3 = prompt("Question 3: How many dots appear on a pair of dice?")
-if (answer3 === '42') {
-    correctAnswer += 1;
-}
-const answer4 = prompt("Question 4: How many 'Academy Awards for Best Original Song' has Disney won?")
-if (answer4 === '14') {
-    correctAnswer += 1;
-}
-const answer5 = prompt("Question 5: What Netflix show had the most streaming views in 2021?")
-if (answer5.toLowerCase() === 'squid games') {
-    correctAnswer += 1;
-}
-
-
-/* Rank player based on number of correct answers 
-   - 5 correct = Gold
-   - 3-4 correct = Silver
-   - 1-2 correct = Bronze
-   - 0 correct = No crown
+/*
+3. Use a loop to cycle through each question
+    - Present each question to the user
+    - Compare the user's response to answer in the array
+    - If the response matches the answer, the number of correctly
+    answered questions increments by 1
 */
-if (correctAnswer === 5) {
-    playerRank = "Gold";
-} else if (correctAnswer >= 3) {
-    playerRank = "Silver"
-} else if (correctAnswer >= 2) {
-    playerRank = "Bronze";
-} else {
-    playerRank = "None :(";
+for (let i = 0; i < questions.length; i++) {
+    let question = questions[i][0];
+    let answer = questions[i][1];
+    let response = prompt(question);
+    let newresponse = response.toLocaleLowerCase()
+
+    if (newresponse === answer) {
+        correctAnswers++;
+        correct.push(question);
+
+    } else {
+        incorrect.push(`<li>${question}</li>`)
+        // incorrect.push(question);
+    }
+
+
 }
 
-// output result to the main element
-main.innerHTML = `<h2> You got ${correctAnswer} out of 5 questions correct. </h2>
-<p>Crown earned: <strong>${playerRank}</strong></p>`
+// 4. Display the number of correct answers to the user
+const main = document.querySelector('main')
+
+if (correctAnswers === 5) {
+    html = `<h1>You Have Got ${correctAnswers} correct!</h1>`
+} else {
+    html = `<h1>You Have Got ${correctAnswers} correct!</h1>
+                <p>You Got These Questions wrong:</p>
+                <ul>${incorrect.join('')}</ul>`
+}
+
+
+main.innerHTML = html
+
